@@ -1,0 +1,168 @@
+<!--
+    1.¿Qué es PDO en BBDD? Comenta sus ventajas.
+
+//PDO significa "PHP Data Objects" (Objetos de Datos de PHP) y es una extensión de PHP que proporciona una interfaz uniforme para acceder a bases de datos desde PHP. PDO fue introducido en PHP 5.1 y ofrece una capa de abstracción de base de datos que permite a los desarrolladores interactuar con diferentes sistemas de gestión de bases de datos (DBMS) utilizando una interfaz común.
+//Algunas de las ventajas de utilizar PDO incluyen:
+//-Portabilidad: Permite escribir código que puede funcionar con diferentes tipos de bases de datos sin necesidad de cambiar muchas líneas de código.
+//-Seguridad: Ayuda a prevenir ataques de inyección de SQL, ya que utiliza sentencias preparadas y vinculación de parámetros para evitar la concatenación directa de valores en las consultas SQL.
+//-Mantenibilidad: Facilita el mantenimiento del código, ya que si alguna vez necesitas cambiar la base de datos subyacente, solo necesitas modificar la conexión PDO y las consultas, en lugar de tener que reescribir gran parte del código.
+
+    2.Crea una web que realice mínimo operaciones CRUD con una base de datos. Temática libre.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Formulario con PDO</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <form id="miFormulario">
+        <div id="formulario"> 
+            <h1> FORMULARIO con CRUD: </h1>
+        </div>    
+        <div id="tabla-formulario">
+            <label for="nombre">Nombre</label>
+            <input placeholder="Ingrese su nombre..." name="fnombre" type="text" id="nombre">
+            
+            <label for="apellido">Apellidos</label>
+            <input placeholder="Ingrese su apellido..." name="fapellido" type="text" id="apellido">
+    
+            <label for="profesion">Profesion</label>
+            <input placeholder="Escriba profesión..." name="fprofesion" type="text" id="profesion">
+    
+            <label for="estado">Estado</label>
+            <input placeholder="Estado civil..." name="festado" type="text" id="estado">
+
+            <!-- Campos ocultos para la identificación de la fila -->
+            <input type="hidden" id="id_usuario_editar" name="id_usuario_editar">
+
+            <!-- Botones de Guardar y Actualizar -->
+            <button type="button" onclick="agregarFila()" id="botonGuardar">Guardar</button>
+            <button type="button" onclick="actualizarFila()" id="botonActualizar" style="display: none;">Actualizar</button>
+        </div>
+    </form>
+    <div class="table-container">
+        <table id="miTabla">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Profesión</th>
+                    <th>Estado Civil</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se agregarán las filas dinámicamente desde PHP -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // Función para cargar y mostrar los datos en la tabla
+        function cargarDatosTabla() {
+            // Enviar solicitud al servidor para obtener las filas HTML
+            $.ajax({
+                type: "POST",
+                url: "login.php",
+                success: function(response) {
+                    // Actualizar la tabla con las filas HTML obtenidas
+                    $("#miTabla tbody").html(response);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            cargarDatosTabla();
+        });
+
+        function agregarFila() {
+            // Obtener datos del formulario
+            var nombre = document.getElementById("nombre").value;
+            var apellido = document.getElementById("apellido").value;
+            var profesion = document.getElementById("profesion").value;
+            var estado = document.getElementById("estado").value;
+
+            // Enviar datos al servidor mediante AJAX
+            $.ajax({
+                type: "POST",
+                url: "login.php",
+                data: {
+                    fnombre: nombre,
+                    fapellido: apellido,
+                    fprofesion: profesion,
+                    festado: estado,
+                    guardar: true
+                },
+                success: function(response) {
+                    // Limpiar todas las filas existentes y luego agregar las nuevas filas
+                    $("#miTabla tbody").empty().append(response);
+                }
+            });
+
+            // Limpiar el formulario
+            document.getElementById("miFormulario").reset();
+        }
+
+        // Función para editar una fila
+        function editarFila(id_usuario, nombre, apellido, profesion, estado) {
+            // Llenar el formulario con los valores actuales
+            document.getElementById("id_usuario_editar").value = id_usuario;
+            document.getElementById("nombre").value = nombre;
+            document.getElementById("apellido").value = apellido;
+            document.getElementById("profesion").value = profesion;
+            document.getElementById("estado").value = estado;
+
+            // Ocultar el botón Guardar y mostrar el botón Actualizar
+            document.getElementById("botonGuardar").style.display = "none";
+            document.getElementById("botonActualizar").style.display = "block";
+        }
+
+        function actualizarFila() {
+            // Obtener datos del formulario
+            var id_usuario = document.getElementById("id_usuario_editar").value;
+            var nombre = document.getElementById("nombre").value;
+            var apellido = document.getElementById("apellido").value;
+            var profesion = document.getElementById("profesion").value;
+            var estado = document.getElementById("estado").value;
+
+            // Enviar datos al servidor mediante AJAX
+            $.ajax({
+                type: "POST",
+                url: "login.php",
+                data: {
+                    id_usuario_editar: id_usuario,
+                    fnombre: nombre,
+                    fapellido: apellido,
+                    fprofesion: profesion,
+                    festado: estado
+                },
+                success: function(response) {
+                    // Limpiar el formulario y restaurar los botones
+                    document.getElementById("miFormulario").reset();
+                    document.getElementById("botonGuardar").style.display = "block";
+                    document.getElementById("botonActualizar").style.display = "none";
+
+                    // Actualizar la tabla con las filas HTML obtenidas
+                    $("#miTabla tbody").html(response);
+                }
+            });
+        }
+
+        function eliminarFila(id_usuario) {
+            $.ajax({
+                type: "POST",
+                url: "login.php", 
+                data: { id_usuario: id_usuario },
+                success: function(response) {
+                    // Actualizar la tabla con la respuesta del servidor (tabla sin el usuario eliminado)
+                    $("#miTabla tbody").html(response);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,135 @@
+/* Estilos para el formulario y los botones */
+
+
+#formulario {
+    font-family: sans-serif;
+    background: #14376d;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    border-top-left-radius: 19px;
+    border-top-right-radius: 19px;
+    border-bottom: 5px solid #205ab4;
+    margin-bottom: 5px;
+}
+
+form {
+    background-color: white;
+    margin: 10px auto;
+    border-radius: 19px;
+    width: 40%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: -200px;
+}
+
+label {
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 5px;
+    display: block;
+    width: 100%;
+    font-family: sans-serif;
+}
+
+input {
+    margin-bottom: 10px;
+    width: 95%;
+    padding: 2%;
+    margin-left: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    font-style: italic;
+}
+
+input:focus {
+    background-color: #F2F2F2;
+}
+
+body {
+    background-image: linear-gradient(-90deg, #6ABBF7, #BD7CFA);
+}
+
+#button,
+button {
+    width: 94%;
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: bolder;
+    background-color: #205ab4;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    border: none;
+    padding: 3%;
+    border-radius: 20px 10px 20px 10px;
+    -webkit-box-shadow: 4px 9px 8px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 4px 9px 8px -4px rgba(0, 0, 0, 0.75);
+    box-shadow: 4px 9px 8px -4px rgba(0, 0, 0, 0.75);
+}
+
+button:hover {
+    background-color: #7FACDE;
+}
+
+/* Estilos para la tabla */
+.table-container {
+    max-width: 800px;
+    margin: 50px auto 20px; /* Ajusta el margen superior para dar espacio al formulario */
+    overflow-x: auto; /* Agrega una barra de desplazamiento horizontal si es necesario */
+    z-index: 1; /* Asegura que la tabla esté detrás del formulario */
+    margin-top: 550px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #205ab4;
+    color: white;
+}
+
+/* Estilos para todos los botones */
+button {
+    background-color: #205ab4;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #7FACDE;
+}
+
+/* Estilos para el botón de guardar */
+#botonGuardar {
+    display: block;
+    margin: 0 auto;
+}
+
+#botonGuardar:hover {
+    background-color: #7FACDE;
+}
+
